@@ -1,0 +1,26 @@
+
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+    "size": "medium",
+    "toppings": ["cheese", "pepperoni"],
+    "quantity": 2
+}
+
+GET http://localhost:3000/api/orders
+
+GET http://localhost:3000/api/orders/{orderId}
+
+PUT http://localhost:3000/api/orders/{orderId}
+Content-Type: application/json
+
+{
+    "size": "large",
+    "toppings": ["mushrooms", "olives"],
+    "quantity": 3
+}
+
+DELETE http://localhost:3000/api/orders/{orderId}
+
+POST http://localhost:3000/api/orders/{orderId}/complete

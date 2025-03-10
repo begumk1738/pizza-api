@@ -104,18 +104,50 @@ app.delete('/api/orders/:orderId', (req, res) => {
 });
 
 
-app.post("/api/orders/:orderId/complete", (req, res) => {
-    const index = orders.findIndex(o => o.id === req.params.orderId);
+const SIZE_PRICES = {
+  small: 10.99,
+  medium: 14.99,
+  large: 18.99
+};
 
-    if (index === -1) {
+const TOPPING_PRICE = 1.5;
+
+
+app.post("/api/orders/:orderId/complete", (req, res) => {
+    const { orderId } = req.params;
+
+
+    const orderIndex = orders.findIndex(order => order.id === orderId);
+    if (orderIndex === -1) {
         return res.status(404).json({ error: "Order not found" });
     }
 
-    const completedOrder = { ...orders[index], status: "completed" };
-    orders.splice(index, 1);
+    const order = orders[orderIndex];
 
-    res.json({ message: "Order completed", order: completedOrder });
+
+    const basePrice = SIZE_PRICES[order.size.toLowerCase()] || 0;
+    const toppingsCost = order.toppings.length * TOPPING_PRICE;
+    const totalPrice = (basePrice + toppingsCost) * order.quantity;
+
+
+    const completedOrder = {
+        id: order.id,
+        size: order.size,
+        toppings: order.toppings,
+        quantity: order.quantity,
+        totalPrice: totalPrice.toFixed(2), 
+        status: "completed"
+    };
+
+    orders.splice(orderIndex, 1);
+
+
+    res.json({
+        message: "Order completed successfully!",
+        orderSummary: completedOrder
+    });
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

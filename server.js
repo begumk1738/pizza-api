@@ -14,15 +14,15 @@ app.post('/api/orders', (req, res) => {
   const { size, toppings, quantity } = req.body;
 
   if (!size || !toppings || !quantity) {
-      return res.status(400).json({ error: "Size, toppings, and quantity are required!" });
+      return res.status(400).json({ error: "Size, toppings and quantity have not been provided." });
   }
 
   if (typeof quantity !== 'number' || quantity < 1) {
-      return res.status(400).json({ error: "Quantity must be a positive number!" });
+      return res.status(400).json({ error: "The number of order should be greater than 0." });
   }
 
   if (!Array.isArray(toppings)) {
-      return res.status(400).json({ error: "Toppings must be an array!" });
+      return res.status(400).json({ error: "Toppings must be an array." });
   }
 
   const newOrder = {
@@ -43,14 +43,14 @@ app.post('/api/orders/:orderId/complete', (req, res) => {
   const orderIndex = orders.findIndex(order => order.id === orderId);
 
   if (orderIndex === -1) {
-      return res.status(404).json({ error: "Order not found!" });
+      return res.status(404).json({ error: "Order invalid." });
   }
 
   const completedOrder = orders[orderIndex];
   orders.splice(orderIndex, 1); 
 
   res.json({
-      message: "Order completed successfully!",
+      message: "Order completed successfully.",
       orderSummary: completedOrder
   });
 });
@@ -64,7 +64,7 @@ app.get("/api/orders/:orderId", (req, res) => {
     const order = orders.find(o => o.id === req.params.orderId);
 
     if (!order) {
-        return res.status(404).json({ error: "Order not found" });
+        return res.status(404).json({ error: "Order invalid." });
     }
 
     res.json(order);
@@ -76,7 +76,7 @@ app.put('/api/orders/:orderId', (req, res) => {
 
   const order = orders.find(order => order.id === orderId);
   if (!order) {
-      return res.status(404).json({ error: "Order not found!" });
+      return res.status(404).json({ error: "Order invalid." });
   }
 
   if (size) order.size = size;
@@ -84,10 +84,10 @@ app.put('/api/orders/:orderId', (req, res) => {
   if (quantity && typeof quantity === 'number' && quantity > 0) {
       order.quantity = quantity;
   } else if (quantity) {
-      return res.status(400).json({ error: "Quantity must be a positive number!" });
+      return res.status(400).json({ error: "The quantity should be greater than 0." });
   }
 
-  res.json({ message: "Order updated successfully!", order });
+  res.json({ message: "Order updated successfully.", order });
 });
 
 
@@ -96,11 +96,11 @@ app.delete('/api/orders/:orderId', (req, res) => {
 
   const orderIndex = orders.findIndex(order => order.id === orderId);
   if (orderIndex === -1) {
-      return res.status(404).json({ error: "Order not found!" });
+      return res.status(404).json({ error: "Order invalid." });
   }
 
   orders.splice(orderIndex, 1);
-  res.json({ message: "Order cancelled successfully!" });
+  res.json({ message: "Order cancelled successfully." });
 });
 
 
@@ -119,7 +119,7 @@ app.post("/api/orders/:orderId/complete", (req, res) => {
 
     const orderIndex = orders.findIndex(order => order.id === orderId);
     if (orderIndex === -1) {
-        return res.status(404).json({ error: "Order not found" });
+        return res.status(404).json({ error: "Order invalid." });
     }
 
     const order = orders[orderIndex];
@@ -143,7 +143,7 @@ app.post("/api/orders/:orderId/complete", (req, res) => {
 
 
     res.json({
-        message: "Order completed successfully!",
+        message: "Order completed successfully.",
         orderSummary: completedOrder
     });
 });

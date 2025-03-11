@@ -1,4 +1,3 @@
-
 POST http://localhost:3000/api/orders
 Content-Type: application/json
 
@@ -24,3 +23,5 @@ Content-Type: application/json
 DELETE http://localhost:3000/api/orders/{orderId}
 
 POST http://localhost:3000/api/orders/{orderId}/complete
+
+# to test each endpoint, comment everything except the one you wish to test out, and click 'Send Request' at the top of the endpoint.

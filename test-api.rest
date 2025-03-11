@@ -24,4 +24,4 @@ DELETE http://localhost:3000/api/orders/{orderId}
 
 POST http://localhost:3000/api/orders/{orderId}/complete
 
-# to test each endpoint, comment everything except the one you wish to test out, and click 'Send Request' at the top of the endpoint.
+# to test an endpoint, turn the rest into comments (crtl + / on windows, command + / on mac), and click 'Send Request' at the top of the endpoint.
